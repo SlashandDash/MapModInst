@@ -81,4 +81,29 @@ if (Test-Path -Path $pluginsPath) {
     Invoke-WebRequest -Uri "https://github.com/o7Moon/CrabGame.MapMod/releases/download/v0.7.8/MapMod.dll" -OutFile $mapModPath
 } else {
     # Download the ZIP file
-    Invoke-WebRequest -Uri "https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x64_ec79ad0_6.0.0-be.577.zip" -
+    Invoke-WebRequest -Uri "https://builds.bepinex.dev/projects/bepinex_be/577/BepInEx_UnityIL2CPP_x64_ec79ad0_6.0.0-be.577.zip" -OutFile "$env:USERPROFILE\Downloads\BepInEx.zip"
+
+    # Extract the ZIP file to the destination path
+    Expand-Archive -Path "$env:USERPROFILE\Downloads\BepInEx.zip" -DestinationPath $destinationPath -Force
+
+    # Create the plugins directory
+    New-Item -ItemType Directory -Path $pluginsPath -Force
+
+    # Download the MapMod.dll file and place it in the plugins folder
+    Invoke-WebRequest -Uri "https://github.com/o7Moon/CrabGame.MapMod/releases/download/v0.7.8/MapMod.dll" -OutFile $mapModPath
+}
+
+# Confirm installation
+if (Test-Path -Path $mapModPath) {
+    Write-Host "MapMod has been successfully installed to $pluginsPath." -ForegroundColor Green
+} else {
+    Write-Host "Error: MapMod installation failed." -ForegroundColor Red
+}
+
+# Clean up: Remove the downloaded ZIP file
+if (Test-Path -Path "$env:USERPROFILE\Downloads\BepInEx.zip") {
+    Remove-Item -Path "$env:USERPROFILE\Downloads\BepInEx.zip" -Force
+}
+
+# Final message
+Write-Host "Script execution completed." -ForegroundColor Cyan
